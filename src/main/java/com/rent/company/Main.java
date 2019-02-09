@@ -7,8 +7,7 @@ import com.rent.company.service.RentCompanyServiceImpl;
 import java.util.Scanner;
 
 public class Main {
-    //zad1. dodawanie wypozyczalni
-    //zad2. dodawanie i usuwanie oddzialow z wypozyczalni
+    //zad2. dodawanie i (usuwanie) oddzialow z wypozyczalni
     //zad3. tworzenie pracownikow
     //zad4. przypisywanie praconikow do oddzialu
     //zad5. tworzenie klienta
@@ -23,15 +22,21 @@ public class Main {
         System.out.println("Option 2 to create department for given company");
         System.out.println("Option 3 display company with departments");
         System.out.println("Option 4 exit program");
-
+        RentCompany newCompany = null;
         String action = "";
+
         while (!action.equalsIgnoreCase("4")) {
             action = scanner.nextLine();
             if (action.equalsIgnoreCase("1")) {
-                RentCompany newCompany = createCompany(scanner, rentCompanyService);
-
+                newCompany = createCompany(scanner, rentCompanyService);
             } else if (action.equalsIgnoreCase("2")) {
-
+                if(newCompany != null) {
+                    //logika tworzaca depertament
+                    
+                }
+                else {
+                    System.out.println("First you need create company");
+                }
 
             } else if (action.equalsIgnoreCase("3")) {
 
