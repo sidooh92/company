@@ -5,6 +5,7 @@ import com.rent.company.domain.RentCompany;
 import com.rent.company.service.RentCompanyService;
 import com.rent.company.service.RentCompanyServiceImpl;
 
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -31,8 +32,10 @@ public class Main {
         while (!action.equalsIgnoreCase("4")) {
             action = scanner.nextLine();
             if (action.equalsIgnoreCase("1")) {
+                System.out.println("CHOSEN 1");
                 newCompany = createCompany(scanner, rentCompanyService);
             } else if (action.equalsIgnoreCase("2")) {
+                System.out.println("CHOSEN 2");
                 if(newCompany != null) {
                     System.out.println("Do you want to create(1) or delete(2) departament ");
                     String userChoice =  scanner.nextLine();
@@ -45,9 +48,21 @@ public class Main {
                     }
                     else if (userChoice.equalsIgnoreCase("2"))
                     {
-                        //delete dep
+                        String address = scanner.nextLine();
+                        if(checkIfDepartamentExists(address,newCompany.getDepartmentList()))                         {
+                            List<Department> departmentList = newCompany.getDepartmentList();
+                            for(Department d : departmentList) {
+                                if(d.getAddress().equalsIgnoreCase(address)) {
+                                    departmentList.remove(d);
+                                    break;
+                                }
+                            }
+
+                        }
+
                     }
                     else {
+                        System.out.println("CHOSEN 3");
                         System.out.println("Wrong option, try again");
                     }
 
@@ -60,7 +75,7 @@ public class Main {
                 }
 
             } else if (action.equalsIgnoreCase("3")) {
-
+                System.out.println(newCompany);
             }
 
 
@@ -79,11 +94,13 @@ public class Main {
     }
 
     private static RentCompany createCompany(Scanner scanner, RentCompanyService rentCompanyService) {
+        System.out.println("Pass params");
         String name = scanner.nextLine();
         String website = scanner.nextLine();
         String address = scanner.nextLine();
         String owner = scanner.nextLine();
         String logo = scanner.nextLine();
+        System.out.println("Passed all params");
         return rentCompanyService.createNewCompany(name, website,
                 address, owner, logo);
     }
