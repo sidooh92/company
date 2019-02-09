@@ -11,6 +11,7 @@ public class Main {
     //zad4. przypisywanie praconikow do oddzialu
     //zad5. tworzenie klienta
     //zad6. tworzenie samochodu
+    //zad6b rozbudowanie aplikacji o zarzadzanie wieloma firmami
     //zad7. wypozyczenie samochodu...
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
