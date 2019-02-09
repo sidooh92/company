@@ -1,10 +1,13 @@
 package com.rent.company;
 
+import com.rent.company.domain.Department;
 import com.rent.company.domain.RentCompany;
 import com.rent.company.service.RentCompanyService;
 import com.rent.company.service.RentCompanyServiceImpl;
 
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Main {
     //zad2. dodawanie i (usuwanie) oddzialow z wypozyczalni
@@ -31,8 +34,26 @@ public class Main {
                 newCompany = createCompany(scanner, rentCompanyService);
             } else if (action.equalsIgnoreCase("2")) {
                 if(newCompany != null) {
-                    //logika tworzaca depertament
-                    
+                    System.out.println("Do you want to create(1) or delete(2) departament ");
+                    String userChoice =  scanner.nextLine();
+                    if(userChoice.equalsIgnoreCase("1")) {
+                        String address = scanner.nextLine();
+                        if(!checkIfDepartamentExists(address, newCompany.getDepartmentList())) {
+                            Department department = new Department(address);
+                            newCompany.getDepartmentList().add(department);
+                        }
+                    }
+                    else if (userChoice.equalsIgnoreCase("2"))
+                    {
+                        //delete dep
+                    }
+                    else {
+                        System.out.println("Wrong option, try again");
+                    }
+
+
+
+
                 }
                 else {
                     System.out.println("First you need create company");
@@ -46,6 +67,15 @@ public class Main {
         }
 
 
+    }
+
+    private static boolean checkIfDepartamentExists(String address, List<Department> departmentList) {
+        int size = departmentList
+                .stream()
+                .filter(d -> d.getAddress().equalsIgnoreCase(address))
+                .collect(Collectors.toList()).size();
+
+        return size > 0;
     }
 
     private static RentCompany createCompany(Scanner scanner, RentCompanyService rentCompanyService) {
