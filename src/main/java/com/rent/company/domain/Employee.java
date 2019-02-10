@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@ToString
+
 @Getter
 @Setter
 public class Employee {
@@ -20,5 +20,14 @@ public class Employee {
         this.isManager = isManager;
         this.department = department;
 
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", isManager=" + isManager +
+                '}';
     }
 }

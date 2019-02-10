@@ -26,37 +26,30 @@ public class Main {
         while (!action.equalsIgnoreCase("10")) {
             action = scanner.nextLine();
             if (action.equalsIgnoreCase("1")) {
+                System.out.println("Creating new company");
                 newCompany = createCompany(scanner, rentCompanyService);
+                System.out.println("New company created");
             } else if (action.equalsIgnoreCase("2")) {
+                System.out.println("Creating new departament");
                 if (newCompany != null) {
                     newCompany = handleCompanyDepartments(scanner, rentCompanyService, newCompany);
+                    System.out.println("New departament created");
                 } else {
                     System.out.println("First you need create company");
                 }
             } else if (action.equalsIgnoreCase("3")) {
+                System.out.println("Display company status");
                 System.out.println(newCompany);
 
             } else if (action.equalsIgnoreCase("4")) {
-                String firstName = scanner.nextLine();
-                String lastName = scanner.nextLine();
-                boolean isManager = scanner.nextBoolean();
-                String deptartamentAddress = scanner.nextLine();
-
-                Optional<Department> department = findDepartmentByAddress(newCompany, deptartamentAddress);
-
-                if(department.isPresent()) {
-                    Employee emp = new Employee(firstName, lastName, isManager, department.get());
-                    department.get().getEmployeeList().add(emp);
-                }
-                else {
-                    System.out.println("Cannot add employee to departament that does not exist");
-                }
-                //sprawdzic czy istnieje departament
-                //jezeli tak to dodac do niego pracownika
-                //jezeli nie to wyswietlic komunikat
-
-                //zad3. tworzenie pracownikow
-                //zad4. przypisywanie praconikow do oddzialu
+                System.out.println("Creating empolyee with department ,pass firstName, lastName, manager, dept address");
+                addNewEmployeeWithDepartment(scanner, newCompany, rentCompanyService);
+            } else if (action.equalsIgnoreCase("5")) {
+                System.out.println("Creating client");
+//todo
+            } else if (action.equalsIgnoreCase("6")) {
+                System.out.println("Creating car");
+//todo
             }
 
 
@@ -65,13 +58,16 @@ public class Main {
 
     }
 
-    private static Optional<Department> findDepartmentByAddress(RentCompany newCompany, String deptartamentAddress) {
-        List<Department> departmentList = newCompany.getDepartmentList();
-        return departmentList
-                .stream()
-                .filter(dep -> dep.getAddress().equalsIgnoreCase(deptartamentAddress))
-                .findFirst();
+    public static void addNewEmployeeWithDepartment(Scanner scanner, RentCompany newCompany, RentCompanyService rentCompanyService) {
+        String firstName = scanner.nextLine();
+        String lastName = scanner.nextLine();
+        String isManagerString = scanner.nextLine();
+        boolean isManager = isManagerString.equalsIgnoreCase("y");
+        String deptartamentAddress = scanner.nextLine();
+
+        rentCompanyService.addEmployeWithParams(newCompany, firstName, lastName, isManager, deptartamentAddress);
     }
+
 
     private static RentCompany handleCompanyDepartments(Scanner scanner, RentCompanyService rentCompanyService, RentCompany newCompany) {
         System.out.println("Do you want to create(1) or delete(2) departament ");
