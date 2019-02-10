@@ -1,12 +1,11 @@
 package com.rent.company;
 
-import com.rent.company.domain.Client;
-import com.rent.company.domain.Department;
-import com.rent.company.domain.Employee;
-import com.rent.company.domain.RentCompany;
+import com.rent.company.domain.*;
 import com.rent.company.service.RentCompanyService;
 import com.rent.company.service.RentCompanyServiceImpl;
+import com.sun.org.apache.bcel.internal.generic.InstructionConstants;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -14,12 +13,21 @@ import java.util.Scanner;
 
 public class Main {
 
-    //zad5. tworzenie klienta
-    //zad6. tworzenie samochodu
-    //zad6b rozbudowanie aplikacji o zarzadzanie wieloma firmami
-    //zad7. wypozyczenie samochodu...
+    //zad7 rozbudowanie aplikacji o
+    //- kazda firma posiada wlasna liste klientow
+    //- aplikacja obsluguje wiele firm (tj mamy liste firm)
+    //zad8. wypozyczenie samochodu
+    //wypozyczenie samochodu - utworzenie rezerwacji...
+    //zwrot samochodu - aktualizacja kilometrow,
+    //przypisanie samochodu do departamentu zwrotu oraz obliczenie kosztu calkowitego rezerwacji
+    //zad9. zrzut stanu aplikacji do pliku txt
+    //zad10. zastapenie System.out.println przez loggera
+    //zad11. dokananie refaktoryzacji kodu w interfejsy + klasa service
+    //zad12. napisac testy jednostkowe o pokryciu 75%-80% +
+    //zad13. dodanie bazy danych + jdbc/hibernate
+
     public static void main(String[] args) {
-        List<Client> clientList =  new ArrayList<>();
+        List<Client> clientList = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         RentCompanyService rentCompanyService = new RentCompanyServiceImpl();
         RentCompany newCompany = null;
@@ -28,10 +36,12 @@ public class Main {
         String action = "";
         while (!action.equalsIgnoreCase("10")) {
             action = scanner.nextLine();
+
             if (action.equalsIgnoreCase("1")) {
                 System.out.println("Creating new company");
                 newCompany = createCompany(scanner, rentCompanyService);
                 System.out.println("New company created");
+
             } else if (action.equalsIgnoreCase("2")) {
                 System.out.println("Creating new departament");
                 if (newCompany != null) {
@@ -40,25 +50,57 @@ public class Main {
                 } else {
                     System.out.println("First you need create company");
                 }
+
             } else if (action.equalsIgnoreCase("3")) {
                 System.out.println("Display company status");
                 System.out.println(newCompany);
+                System.out.println("Dispaly clients: ");
+                clientList.forEach(System.out::println);
 
             } else if (action.equalsIgnoreCase("4")) {
                 System.out.println("Creating empolyee with department ,pass firstName, lastName, manager, dept address");
                 addNewEmployeeWithDepartment(scanner, newCompany, rentCompanyService);
+
             } else if (action.equalsIgnoreCase("5")) {
                 System.out.println("Creating client");
-//todo
+                addClient(clientList, scanner);
+                System.out.println("Client created");
+
             } else if (action.equalsIgnoreCase("6")) {
                 System.out.println("Creating car");
-//todo
+                addCar(scanner, (RentCompanyServiceImpl) rentCompanyService, newCompany);
+                System.out.println("Car created");
             }
 
 
         }
 
 
+    }
+
+    private static void addCar(Scanner scanner, RentCompanyServiceImpl rentCompanyService, RentCompany newCompany) {
+        String brand = scanner.nextLine();
+        String model = scanner.nextLine();
+        CarTypesEnum carTypesEnum = CarTypesEnum.valueOf(scanner.nextLine());
+        int productionYear = Integer.parseInt(scanner.nextLine());
+        String color = scanner.nextLine();
+        int mileage = Integer.parseInt(scanner.nextLine());
+        CarStatusEnum carStatusEnum = CarStatusEnum.valueOf(scanner.nextLine());
+        double costPerDay = Double.parseDouble(scanner.nextLine());
+        String deptAddress = scanner.nextLine();
+
+        rentCompanyService.createCarForDepartment(rentCompanyService, newCompany, brand, model, carTypesEnum, productionYear, color, mileage, carStatusEnum, costPerDay, deptAddress);
+    }
+
+
+
+    private static void addClient(List<Client> clientList, Scanner scanner) {
+        String firstName = scanner.nextLine();
+        String lastName = scanner.nextLine();
+        String addresses = scanner.nextLine();
+        String mail = scanner.nextLine();
+        Client client = new Client(firstName, lastName, addresses, mail);
+        clientList.add(client);
     }
 
     public static void addNewEmployeeWithDepartment(Scanner scanner, RentCompany newCompany, RentCompanyService rentCompanyService) {
