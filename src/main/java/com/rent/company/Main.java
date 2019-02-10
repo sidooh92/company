@@ -1,11 +1,13 @@
 package com.rent.company;
 
+import com.rent.company.domain.Client;
 import com.rent.company.domain.Department;
 import com.rent.company.domain.Employee;
 import com.rent.company.domain.RentCompany;
 import com.rent.company.service.RentCompanyService;
 import com.rent.company.service.RentCompanyServiceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -17,6 +19,7 @@ public class Main {
     //zad6b rozbudowanie aplikacji o zarzadzanie wieloma firmami
     //zad7. wypozyczenie samochodu...
     public static void main(String[] args) {
+        List<Client> clientList =  new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         RentCompanyService rentCompanyService = new RentCompanyServiceImpl();
         RentCompany newCompany = null;
