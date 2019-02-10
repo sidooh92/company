@@ -6,27 +6,28 @@ import com.rent.company.domain.Client;
 import com.rent.company.domain.RentCompany;
 import com.rent.company.service.RentCompanyService;
 import com.rent.company.service.RentCompanyServiceImpl;
+import lombok.extern.java.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+@Log
 public class Main {
 
-    //zad7 rozbudowanie aplikacji o
-    //- kazda firma posiada wlasna liste klientow
-    //- aplikacja obsluguje wiele firm (tj mamy liste firm)
     //zad8. wypozyczenie samochodu
     //wypozyczenie samochodu - utworzenie rezerwacji...
     //zwrot samochodu - aktualizacja kilometrow,
     //przypisanie samochodu do departamentu zwrotu oraz obliczenie kosztu calkowitego rezerwacji
-    //zad9. zrzut stanu aplikacji do pliku txt
+    //zad9. zrzut stanu aplikacji do pliku txt (dla przecwiczenia zapisu do pliku)
     //zad10. zastapenie System.out.println przez loggera
-    //zad11. dokananie refaktoryzacji kodu w interfejsy + klasa service
+    //zad11. dokananie refaktoryzacji kodu  interfejsy + klasy service
     //zad12. napisac testy jednostkowe o pokryciu 75%-80% +
     //zad13. dodanie bazy danych + jdbc/hibernate
+    //zad14. zaimplementowanie rzeczy z pdf od zadania
 
     public static void main(String[] args) {
+        log.info("TEST logger config");
 
         Scanner scanner = new Scanner(System.in);
         RentCompanyService rentCompanyService = new RentCompanyServiceImpl();
@@ -39,10 +40,6 @@ public class Main {
             action = scanner.nextLine();
 
             if (action.equalsIgnoreCase("0")) {
-                //metoda wyswietlajaca wszystkie istniejcace firmy
-                //wpisanie nazwy firmy ktora chcemy zarzadzac
-                //jezeli wpisana nazwa nie istnieje to wyswietl
-                // informacje ze trzeba wpierw firme utworzyc
                 companies.forEach(company -> System.out.println(company.getName()));
                 String chosenCompanyName = scanner.nextLine();
                 currentCompany = null;
