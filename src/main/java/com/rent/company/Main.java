@@ -60,7 +60,7 @@ public class Main {
 
             } else if (action.equalsIgnoreCase("1")) {
                 System.out.println("Creating new company");
-                currentCompany = createCompany(scanner, rentCompanyService);
+                currentCompany = createCompany(scanner, rentCompanyService, companies);
                 System.out.println("New company created");
 
             } else if (action.equalsIgnoreCase("2")) {
@@ -159,7 +159,7 @@ public class Main {
     }
 
 
-    private static RentCompany createCompany(Scanner scanner, RentCompanyService rentCompanyService) {
+    private static RentCompany createCompany(Scanner scanner, RentCompanyService rentCompanyService, List<RentCompany> companies) {
         System.out.println("Pass params");
         String name = scanner.nextLine();
         String website = scanner.nextLine();
@@ -167,8 +167,10 @@ public class Main {
         String owner = scanner.nextLine();
         String logo = scanner.nextLine();
         System.out.println("Passed all params");
-        return rentCompanyService.createNewCompany(name, website,
+        RentCompany newCompany = rentCompanyService.createNewCompany(name, website,
                 address, owner, logo);
+        companies.add(newCompany);
+        return newCompany;
     }
 
 
