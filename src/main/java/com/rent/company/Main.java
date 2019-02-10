@@ -1,14 +1,14 @@
 package com.rent.company;
 
-import com.rent.company.domain.*;
+import com.rent.company.domain.CarStatusEnum;
+import com.rent.company.domain.CarTypesEnum;
+import com.rent.company.domain.Client;
+import com.rent.company.domain.RentCompany;
 import com.rent.company.service.RentCompanyService;
 import com.rent.company.service.RentCompanyServiceImpl;
-import com.sun.org.apache.bcel.internal.generic.InstructionConstants;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
