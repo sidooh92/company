@@ -27,25 +27,43 @@ public class Main {
     //zad13. dodanie bazy danych + jdbc/hibernate
 
     public static void main(String[] args) {
-        List<Client> clientList = new ArrayList<>();
+
         Scanner scanner = new Scanner(System.in);
         RentCompanyService rentCompanyService = new RentCompanyServiceImpl();
-        RentCompany newCompany = null;
+        RentCompany currentCompany = null;
+        List<RentCompany> companies = new ArrayList<>();
         showInstructions();
 
         String action = "";
         while (!action.equalsIgnoreCase("10")) {
             action = scanner.nextLine();
 
-            if (action.equalsIgnoreCase("1")) {
+            if (action.equalsIgnoreCase("0")) {
+                //metoda wyswietlajaca wszystkie istniejcace firmy
+                //wpisanie nazwy firmy ktora chcemy zarzadzac
+                //jezeli wpisana nazwa nie istnieje to wyswietl
+                // informacje ze trzeba wpierw firme utworzyc
+                companies.forEach(company -> System.out.println(company.getName()));
+                String chosenCompanyName = scanner.nextLine();
+
+                for (RentCompany company : companies) {
+                    if (company.getName().equalsIgnoreCase(chosenCompanyName)) {
+                        currentCompany = company;
+                        break;
+                    }
+
+                }
+
+
+            } else if (action.equalsIgnoreCase("1")) {
                 System.out.println("Creating new company");
-                newCompany = createCompany(scanner, rentCompanyService);
+                currentCompany = createCompany(scanner, rentCompanyService);
                 System.out.println("New company created");
 
             } else if (action.equalsIgnoreCase("2")) {
                 System.out.println("Creating new departament");
-                if (newCompany != null) {
-                    newCompany = handleCompanyDepartments(scanner, rentCompanyService, newCompany);
+                if (currentCompany != null) {
+                    currentCompany = handleCompanyDepartments(scanner, rentCompanyService, currentCompany);
                     System.out.println("New departament created");
                 } else {
                     System.out.println("First you need create company");
@@ -53,22 +71,22 @@ public class Main {
 
             } else if (action.equalsIgnoreCase("3")) {
                 System.out.println("Display company status");
-                System.out.println(newCompany);
+                System.out.println(currentCompany);
                 System.out.println("Dispaly clients: ");
-                clientList.forEach(System.out::println);
+                currentCompany.getClientList().forEach(System.out::println);
 
             } else if (action.equalsIgnoreCase("4")) {
                 System.out.println("Creating empolyee with department ,pass firstName, lastName, manager, dept address");
-                addNewEmployeeWithDepartment(scanner, newCompany, rentCompanyService);
+                addNewEmployeeWithDepartment(scanner, currentCompany, rentCompanyService);
 
             } else if (action.equalsIgnoreCase("5")) {
                 System.out.println("Creating client");
-                addClient(clientList, scanner);
+                addClient(currentCompany.getClientList(), scanner);
                 System.out.println("Client created");
 
             } else if (action.equalsIgnoreCase("6")) {
                 System.out.println("Creating car");
-                addCar(scanner, (RentCompanyServiceImpl) rentCompanyService, newCompany);
+                addCar(scanner, (RentCompanyServiceImpl) rentCompanyService, currentCompany);
                 System.out.println("Car created");
             }
 
@@ -91,7 +109,6 @@ public class Main {
 
         rentCompanyService.createCarForDepartment(rentCompanyService, newCompany, brand, model, carTypesEnum, productionYear, color, mileage, carStatusEnum, costPerDay, deptAddress);
     }
-
 
 
     private static void addClient(List<Client> clientList, Scanner scanner) {
