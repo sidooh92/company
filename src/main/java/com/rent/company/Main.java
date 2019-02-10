@@ -1,10 +1,13 @@
 package com.rent.company;
 
+import com.rent.company.domain.Department;
+import com.rent.company.domain.Employee;
 import com.rent.company.domain.RentCompany;
 import com.rent.company.service.RentCompanyService;
 import com.rent.company.service.RentCompanyServiceImpl;
 
-import java.sql.SQLOutput;
+import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
@@ -35,12 +38,19 @@ public class Main {
 
             } else if (action.equalsIgnoreCase("4")) {
                 String firstName = scanner.nextLine();
-                String lastName =  scanner.nextLine();
+                String lastName = scanner.nextLine();
                 boolean isManager = scanner.nextBoolean();
                 String deptartamentAddress = scanner.nextLine();
 
-                findDepartmentByAddress(newCompany, deptartamentAddress);
+                Optional<Department> department = findDepartmentByAddress(newCompany, deptartamentAddress);
 
+                if(department.isPresent()) {
+                    Employee emp = new Employee(firstName, lastName, isManager, department.get());
+                    department.get().getEmployeeList().add(emp);
+                }
+                else {
+                    System.out.println("Cannot add employee to departament that does not exist");
+                }
                 //sprawdzic czy istnieje departament
                 //jezeli tak to dodac do niego pracownika
                 //jezeli nie to wyswietlic komunikat
@@ -53,6 +63,14 @@ public class Main {
         }
 
 
+    }
+
+    private static Optional<Department> findDepartmentByAddress(RentCompany newCompany, String deptartamentAddress) {
+        List<Department> departmentList = newCompany.getDepartmentList();
+        return departmentList
+                .stream()
+                .filter(dep -> dep.getAddress().equalsIgnoreCase(deptartamentAddress))
+                .findFirst();
     }
 
     private static RentCompany handleCompanyDepartments(Scanner scanner, RentCompanyService rentCompanyService, RentCompany newCompany) {
