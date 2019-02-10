@@ -45,13 +45,16 @@ public class Main {
                 // informacje ze trzeba wpierw firme utworzyc
                 companies.forEach(company -> System.out.println(company.getName()));
                 String chosenCompanyName = scanner.nextLine();
-
+                currentCompany = null;
                 for (RentCompany company : companies) {
                     if (company.getName().equalsIgnoreCase(chosenCompanyName)) {
                         currentCompany = company;
                         break;
                     }
-
+                }
+                if(currentCompany == null) {
+                    System.out.println("Try again, company with name " +
+                            "you gave does not exist");
                 }
 
 
