@@ -10,5 +10,5 @@ public interface RentCompanyService {
                                  String logo);
     RentCompany handleDepartmentsFromCompany(RentCompany newCompany, String userChoice, String address);
     void addEmployeWithParams(RentCompany newCompany, String firstName, String lastName, boolean isManager, String deptartamentAddress);
-    public void createCarForDepartment(RentCompanyServiceImpl rentCompanyService, RentCompany newCompany, String brand, String model, CarTypesEnum carTypesEnum, int productionYear, String color, int mileage, CarStatusEnum carStatusEnum, double costPerDay, String deptAddress);
+    void createCarForDepartment(RentCompanyServiceImpl rentCompanyService, RentCompany newCompany, String brand, String model, CarTypesEnum carTypesEnum, int productionYear, String color, int mileage, CarStatusEnum carStatusEnum, double costPerDay, String deptAddress);
     }
